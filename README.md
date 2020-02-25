@@ -1,2 +1,2 @@
 # ProjectFocus
-insert one liner here
+You snooze, you lose
