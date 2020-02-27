@@ -19,4 +19,4 @@ while not done:
     
     #draw end
     
-pygame.exit()
+pygame.quit()
