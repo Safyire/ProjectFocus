@@ -25,11 +25,10 @@ while not done:
     time_hour_2 = int(time_hour)
     time_minute = now.strftime("%M")
     
+    #12 hour clock
     if (time_hour_2 > 12):
         time_hour_2 -= 12
         time_hour = ("0" + str(time_hour_2))
-        
-    
     
     current_time = time_hour + ":" + time_minute
     
