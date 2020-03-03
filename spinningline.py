@@ -16,7 +16,6 @@ pygame.display.set_mode(size, pygame.NOFRAME)
 done = False
 angle = 0
 spinning = True #Contribution by Crockett
-event = pygame.key.get_pressed()
 
 while not done:
     dimensions = [110, 30, 250, 250]
@@ -34,12 +33,13 @@ while not done:
     if angle > 2 * PI:
         angle = angle - 2 * PI
     
-    if event[pygame.K_SPACE]:
-        done = True
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            done = True
         
     pygame.display.flip()
     pygame.time.Clock().tick(60)
     pygame.draw.line(screen, BLACK, [235, 155], [x, y], 2)
     #draw end
-    
+
 pygame.quit()
