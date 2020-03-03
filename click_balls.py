@@ -41,7 +41,7 @@ def main():
     #set up the screen
     size = [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen = pygame.display.set_mode(size)
-    pygame.display.set_caption("Click The Balls")
+    pygame.display.set_mode(size, pygame.NOFRAME)
     
     #this boolean will be used to tell when to stop the game
     done = False
@@ -51,7 +51,6 @@ def main():
     
     #make a list and store 3 balls in it
     ball_list = []
-    count = 0
     ball = make_ball(RED)
     ball_list.append(ball)
     ball = make_ball(GREEN)
@@ -59,14 +58,14 @@ def main():
     ball = make_ball(BLUE)
     ball_list.append(ball)
     
+    #counts how many times you made every ball disappear
+    games_played = 0
+    
     #game
     while not done:
         for event in pygame.event.get():
-            #stop the game when you press the X
-            if event.type == pygame.QUIT:
-                done = True
             #if the mouse is clicked and it is on a ball, make the ball disappear
-            elif pygame.mouse.get_pressed()[0]:
+            if pygame.mouse.get_pressed()[0]:
                 #get mouse coords
                 mouse_x = pygame.mouse.get_pos()[0]
                 mouse_y = pygame.mouse.get_pos()[1]
@@ -77,13 +76,19 @@ def main():
                         ball_list.remove(ball)
         #if all the balls have been clicked
         if len(ball_list) == 0:
-            #restart the game by adding the balls back into the list
-            ball = make_ball(RED)
-            ball_list.append(ball)
-            ball = make_ball(GREEN)
-            ball_list.append(ball)
-            ball = make_ball(BLUE)
-            ball_list.append(ball)
+            #add 1 to games_played
+            games_played += 1
+            #check if you've won three games and end the game if you have
+            if games_played == 3:
+                done = True
+            else:
+                #restart the game by adding the balls back into the list
+                ball = make_ball(RED)
+                ball_list.append(ball)
+                ball = make_ball(GREEN)
+                ball_list.append(ball)
+                ball = make_ball(BLUE)
+                ball_list.append(ball)
         #move the balls
         for ball in ball_list:
             #change the coords
@@ -96,6 +101,7 @@ def main():
                 ball.change_x *= -1
             #draw over the old balls
             screen.fill(BLACK)
+            
         #draw the balls
         for ball in ball_list:
             pygame.draw.circle(screen, ball.color, [ball.x, ball.y], BALL_SIZE)
