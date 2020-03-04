@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -14,25 +15,33 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_mode(size, pygame.NOFRAME)
 done = False
+
+#draw setup
 angle = 0
-spinning = True #Contribution by Crockett
+area_width = random.randint(50, 100)
+area_x = 235 #original value: 235
+area_y = 155 #original value: 155
 
 while not done:
     dimensions = [110, 30, 250, 250]
     
     #draw start
-    pygame.draw.ellipse(screen, GREEN, dimensions, 2)
+    pygame.draw.ellipse(screen, GREEN, dimensions, 2) #Main circle
     
     angle += .1
     
     x = 125 * math.sin(angle) + 235
     y = 125 * math.cos(angle) + 155
     
-    pygame.draw.line(screen, GREEN, [235, 155], [x, y], 2)
+    for a in range(0, area_width): #Shaded area of the main circle
+        pygame.draw.line(screen, (0, 100, 0), [235, 155], [125 * math.sin(a * .01) + area_x, 125 * math.cos(a * .01) + area_y], 3)
+    
+    pygame.draw.line(screen, GREEN, [235, 155], [x, y], 2) #Main line
     
     if angle > 2 * PI:
         angle = angle - 2 * PI
     
+    #Exit if the mouse is clicked on the window (tap)
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             done = True
