@@ -14,9 +14,12 @@ done = False
 
 while not done:
     #initialization
+    dimensions = [50, 50, 50, 50]
     
     #draw start
+    pygame.draw.rect(screen, WHITE, dimensions)
     
     #draw end
+    pygame.display.flip()
     
 pygame.quit()
