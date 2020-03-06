@@ -18,9 +18,9 @@ done = False
 
 # draw setup
 angle = 0
-area_width = random.randint(50, 100)
 area_x = 235  # original value: 235
 area_y = 155  # original value: 155
+area_offset = random.randint(0, 359)
 
 while not done:
     dimensions = [110, 30, 250, 250]
@@ -34,6 +34,7 @@ while not done:
     y = 125 * math.cos(angle) + 155
 
     for a in range(0, area_width):  # Shaded area of the main circle
+        #pygame.draw.line(screen, BLACK, [235
         pygame.draw.line(screen, (0, 100, 0), [235, 155],
                          [125 * math.sin(a * .01) + area_x, 125 * math.cos(a * .01) + area_y], 3)
 
