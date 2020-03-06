@@ -5,7 +5,7 @@ WHITE = (255, 255, 255)
 
 pygame.init()
 
-size = [480, 320] #RPi screen size
+size = [480, 320]  # RPi screen size
 screen = pygame.display.set_mode(size)
 
 pygame.display.set_mode(size, pygame.NOFRAME)
@@ -13,10 +13,10 @@ pygame.display.set_mode(size, pygame.NOFRAME)
 done = False
 
 while not done:
-    #initialization
+    # initialization
     
-    #draw start
+    # draw start
     
-    #draw end
+    # draw end
     
 pygame.quit()
