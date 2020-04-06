@@ -76,19 +76,42 @@ def make_grass(position):
     grass.pos = position
     return grass
 
+#-----lilypad-----
+class Lilypad:
+    def __init__(self):
+        self.y_pos = 0
+        self.x_pos = 0
+    def draw(self):
+        pygame.draw.rect(screen, GREEN, [20+self.x_pos*40, self.y_pos*40, 40, 40])
+    def change_y(self, new_y):
+        self.y_pos = new_y
+def make_lily(y):
+    lily = Lilypad()
+    lily.y_pos = y
+    lily.x_pos = random.randrange(0, 11)
+    return lily
+
 #-----water-----
 class Water:
     def __init__(self):
         self.pos = 0
+        self.lily1 = 0
+        self.lily2 = 0
     def draw(self):
         pygame.draw.rect(screen, W_COLOR, [0, self.pos*40, 480, 40])
+        self.lily1.draw()
+        self.lily2.draw()
     def change_pos(self, new_pos):
         self.pos = new_pos
+        self.lily1.change_y(new_pos)
+        self.lily2.change_y(new_pos)
     def get_pos(self):
         return self.pos
 def make_water(position):
     water = Water()
     water.pos = position
+    water.lily1 = make_lily(position)
+    water.lily2 = make_lily(position)
     return water
 
 #-----player-----
@@ -133,14 +156,21 @@ def main():
     p1 = make_player(5)
     
     board = []
-    for i in range(8):
+    for i in range(7):
         num = random.randrange(1, 4)
         if num == 1:
             board.append(make_road(i))
         elif num == 2:
             board.append(make_grass(i))
         elif num == 3:
-            board.append(make_water(i))
+            if not(i == 0):
+                if isinstance(board[i-1], Water):
+                    board.append(make_grass(i))
+                else:
+                    board.append(make_water(i))
+            else:
+                board.append(make_water(i))
+    board.append(make_grass(7))
     
     screen.fill(BLUE)
     
@@ -161,6 +191,10 @@ def main():
                 if place.pos == 7 and place.car.x_pos + 70 > 20+p1.pos*40 and place.car.x_pos < 60+p1.pos*40:
                     died = True
                     done = True
+        if isinstance(board[7], Water):
+            if not(p1.pos == board[7].lily1.x_pos or p1.pos == board[7].lily2.x_pos):
+                died = True
+                done = True
         for event in pygame.event.get():
             if pygame.mouse.get_pressed()[0]:
                 #get the mouse position
@@ -175,7 +209,7 @@ def main():
                     board[0].change_pos(0)
                     if not(died == True):
                         counter = counter + 1
-                        if counter == 15:
+                        if counter == 25:
                             won = True
                             done = True
                 elif mouse_x > 365 and mouse_x < 395 and mouse_y > 21 and mouse_y < 41:
