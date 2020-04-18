@@ -44,7 +44,7 @@ def make_car(x, y):
 
 #-----road-----
 class Road:
-    def __inti__(self):
+    def __init__(self):
         self.pos = 0
         self.car = 0
     def draw(self):
